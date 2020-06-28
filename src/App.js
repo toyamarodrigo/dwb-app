@@ -10,14 +10,14 @@ function App() {
         <Col>
           <Container>
             <Row className="justify-content-center">
-              <Col lg={8}>
-                <h1 className="text-center">DW-tube</h1>
+              <Col lg={12}>
+                <h1 className="text-center">dw-tube</h1>
               </Col>
             </Row>
           </Container>
           <Container>
             <Row className="justify-content-center">
-              <Col lg={8}>
+              <Col lg={6}>
                 <Form>
                   <Form.Group>
                     <Form.Control type="text" placeholder="http://..." />
