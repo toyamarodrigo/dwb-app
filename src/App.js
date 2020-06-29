@@ -1,7 +1,12 @@
 import React from 'react';
-import { Container, Form, Row, Col } from 'react-bootstrap';
+import { Container, Form, Row, Col, Button } from 'react-bootstrap';
+
 
 import './App.scss';
+
+
+
+
 
 function App() {
   return (
@@ -11,7 +16,7 @@ function App() {
           <Container>
             <Row className="justify-content-center">
               <Col lg={12}>
-                <h1 className="text-center">dw-tube</h1>
+                <h1 className="text-center">Download Youtube Videos</h1>
               </Col>
             </Row>
           </Container>
@@ -24,6 +29,10 @@ function App() {
                   </Form.Group>
                 </Form>
               </Col>
+            </Row>
+            <Row className="justify-content-center">
+              <Button className="mx-2">.mp4</Button>
+              <Button className="mx-2">.mp3</Button>
             </Row>
           </Container>
         </Col>
