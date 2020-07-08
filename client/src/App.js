@@ -1,12 +1,7 @@
 import React from 'react';
 import { Container, Form, Row, Col, Button } from 'react-bootstrap';
 
-
 import './App.scss';
-
-
-
-
 
 function App() {
   return (
