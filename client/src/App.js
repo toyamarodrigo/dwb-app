@@ -1,9 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Form, Row, Col, Button } from 'react-bootstrap';
+import validator from 'validator';
+import axios from 'axios';
+import fileDownload from 'js-file-download';
 
 import './App.scss';
 
 function App() {
+  const [url, setUrl] = useState('');
+
+  const handleChange = (e) => {
+    e.persist();
+    setUrl(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validURL = validator.isURL(url, { require_protocol: true });
+
+    if (!validURL) {
+      console.log(
+        'Please ensure this URL is correct and includes the https protocol'
+      );
+    } else {
+      console.log(`URL is: ${url}`);
+
+      axios({
+        url: `http://localhost:5000/download?URL=${url}`,
+        method: 'GET',
+        responseType: 'blob',
+      })
+        .then((res) => {
+          console.log(res);
+          fileDownload(res.data, 'video.mp4');
+        })
+        .catch((err) => console.log(err));
+      // window.location.href = `http://localhost:5000/download?URL=${url}`;
+    }
+  };
+
+  useEffect(() => {
+    console.log(url);
+  }, [url]);
+
   return (
     <div className="App">
       <Row className="justify-content-center align-items-center vertical-center">
@@ -18,9 +57,13 @@ function App() {
           <Container>
             <Row className="justify-content-center">
               <Col lg={6}>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                   <Form.Group>
-                    <Form.Control type="text" placeholder="http://..." />
+                    <Form.Control
+                      type="text"
+                      placeholder="http://..."
+                      onChange={handleChange}
+                    />
                   </Form.Group>
                 </Form>
               </Col>
