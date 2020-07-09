@@ -35,7 +35,6 @@ function App() {
           fileDownload(res.data, 'video.mp4');
         })
         .catch((err) => console.log(err));
-      // window.location.href = `http://localhost:5000/download?URL=${url}`;
     }
   };
 
