@@ -10,13 +10,15 @@
 
 * [ ] Add Downloading progress.
 
+* [ ] Separate App into Components.
+
 ## Less Important (for now...)
 
 * [ ] Responsive / Styles.
 
 * [ ] Animations.
 
-* [ ] Keep React-Bootstrap or not ???
+* [ ] Use React-Bootstrap, custom CSS styles ??? styled-components ???
 
 * [ ] Re-format code.
 
