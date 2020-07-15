@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Row, Col, Button } from 'react-bootstrap';
+import Select from 'react-select';
 import validator from 'validator';
 import axios from 'axios';
 import fileDownload from 'js-file-download';
@@ -42,6 +43,14 @@ function App() {
     console.log(url);
   }, [url]);
 
+  const formats = [
+    { label: '.mp3 [128kb]', value: 1 },
+    { label: '.mp3 [320kb]', value: 2 },
+    { label: '.mp4 [420p]', value: 3 },
+    { label: '.mp4 [720p]', value: 4 },
+    { label: '.mp4 [1080p]', value: 5 },
+  ];
+
   return (
     <div className="App">
       <Row className="justify-content-center align-items-center vertical-center">
@@ -55,7 +64,7 @@ function App() {
           </Container>
           <Container>
             <Row className="justify-content-center">
-              <Col lg={6}>
+              <Col lg={5}>
                 <Form onSubmit={handleSubmit}>
                   <Form.Group>
                     <Form.Control
@@ -66,10 +75,14 @@ function App() {
                   </Form.Group>
                 </Form>
               </Col>
+              <Col lg={2}>
+                <Select placeholder="Select Format" options={formats}></Select>
+              </Col>
             </Row>
             <Row className="justify-content-center">
-              <Button className="mx-2">.mp4</Button>
-              <Button className="mx-2">.mp3</Button>
+              <Col lg={2} className="text-center">
+                <Button className="btn-block btn">Download</Button>
+              </Col>
             </Row>
           </Container>
         </Col>
