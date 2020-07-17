@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Form, Row, Col, Button } from 'react-bootstrap';
-import Select from 'react-select';
 import validator from 'validator';
 import axios from 'axios';
 import fileDownload from 'js-file-download';
@@ -43,50 +41,53 @@ function App() {
     console.log(url);
   }, [url]);
 
-  const formats = [
-    { label: '.mp3 [128kb]', value: 1 },
-    { label: '.mp3 [320kb]', value: 2 },
-    { label: '.mp4 [420p]', value: 3 },
-    { label: '.mp4 [720p]', value: 4 },
-    { label: '.mp4 [1080p]', value: 5 },
-  ];
-
   return (
     <div className="App">
-      <Row className="justify-content-center align-items-center vertical-center">
-        <Col>
-          <Container>
-            <Row className="justify-content-center">
-              <Col lg={12}>
+      <div className="row justify-content-center align-items-center vertical-center">
+        <div className="col-12">
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-lg-12">
                 <h1 className="text-center">Download Youtube Videos</h1>
-              </Col>
-            </Row>
-          </Container>
-          <Container>
-            <Row className="justify-content-center">
-              <Col lg={5}>
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group>
-                    <Form.Control
+              </div>
+            </div>
+          </div>
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-lg-6">
+                <form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <input
+                      className="form-control"
                       type="text"
                       placeholder="http://..."
                       onChange={handleChange}
                     />
-                  </Form.Group>
-                </Form>
-              </Col>
-              <Col lg={2}>
-                <Select placeholder="Select Format" options={formats}></Select>
-              </Col>
-            </Row>
-            <Row className="justify-content-center">
-              <Col lg={2} className="text-center">
-                <Button className="btn-block btn">Download</Button>
-              </Col>
-            </Row>
-          </Container>
-        </Col>
-      </Row>
+                  </div>
+                </form>
+              </div>
+              <div className="col-lg-3">
+                <select className="custom-select" name="format">
+                  <option disabled>&nbsp; Audio</option>
+                  <option>.mp3 [128kb]</option>
+                  <option>.mp3 [320kb]</option>
+                  <option disabled>&nbsp; Video</option>
+                  <option>.mp4 [420p]</option>
+                  <option>.mp4 [720p]</option>
+                  <option>.mp4 [1080p]</option>
+                </select>
+              </div>
+            </div>
+            <div className="row justify-content-center">
+              <div className="col-lg-2">
+                <button type="button" className="btn btn-success btn-block text-center">
+                  Download
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
