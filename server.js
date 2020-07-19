@@ -52,7 +52,7 @@ app.get('/download', async (req, res) => {
     res.header('Content-Disposition', 'attachment; filename="video.mp4"');
     res.header('Content-Type', 'video/webm');
 
-    // ytdl(url).pipe(res);
+    ytdl(url).pipe(res);
 
     // ytdl(url, {
     //   filter: (format) => format.container === 'mp4' && !format.qualityLabel,

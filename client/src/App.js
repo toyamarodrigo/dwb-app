@@ -31,7 +31,8 @@ function App() {
       })
         .then((res) => {
           console.log(res);
-          fileDownload(res.data, 'video.mp4');
+          // fileDownload(res.data, 'video.mp4');
+          fileDownload(res.data, 'nombre')
         })
         .catch((err) => console.log(err));
     }
@@ -48,14 +49,15 @@ function App() {
           <div className="container">
             <div className="row justify-content-center">
               <div className="col-lg-12">
-                <h1 className="text-center">Download Youtube Videos</h1>
+                <h1 className="text-center">DWL Youtube</h1>
               </div>
             </div>
           </div>
+
           <div className="container">
-            <div className="row justify-content-center">
-              <div className="col-lg-6">
-                <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
+              <div className="row justify-content-center">
+                <div className="col-lg-6">
                   <div className="form-group">
                     <input
                       className="form-control"
@@ -64,27 +66,30 @@ function App() {
                       onChange={handleChange}
                     />
                   </div>
-                </form>
+                </div>
+                <div className="col-lg-3">
+                  <select className="custom-select" name="format">
+                    <option disabled>&nbsp; Audio</option>
+                    <option>.mp3 [128kb]</option>
+                    <option>.mp3 [320kb]</option>
+                    <option disabled>&nbsp; Video</option>
+                    <option>.mp4 [420p]</option>
+                    <option>.mp4 [720p]</option>
+                    <option>.mp4 [1080p]</option>
+                  </select>
+                </div>
               </div>
-              <div className="col-lg-3">
-                <select className="custom-select" name="format">
-                  <option disabled>&nbsp; Audio</option>
-                  <option>.mp3 [128kb]</option>
-                  <option>.mp3 [320kb]</option>
-                  <option disabled>&nbsp; Video</option>
-                  <option>.mp4 [420p]</option>
-                  <option>.mp4 [720p]</option>
-                  <option>.mp4 [1080p]</option>
-                </select>
+              <div className="row justify-content-center">
+                <div className="col-lg-3">
+                  <button
+                    type="submit"
+                    className="btn btn-success btn-block text-center"
+                  >
+                    Download
+                  </button>
+                </div>
               </div>
-            </div>
-            <div className="row justify-content-center">
-              <div className="col-lg-2">
-                <button type="button" className="btn btn-success btn-block text-center">
-                  Download
-                </button>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
