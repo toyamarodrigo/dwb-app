@@ -7,13 +7,30 @@ import './App.scss';
 
 function App() {
   const [url, setUrl] = useState('');
+  const [format, setFormat] = useState('');
 
-  const handleChange = (e) => {
+  const handleUrlChange = (e) => {
     e.persist();
     setUrl(e.target.value);
   };
 
+  const handleFormatChange = (e) => {
+    e.persist();
+    setFormat(e.target.value);
+  };
+
   const handleSubmit = (e) => {
+
+    // itag container quality codecs                 bitrate  audio bitrate
+    // 18   mp4       360p    avc1.42001E, mp4a.40.2 696.66KB 96KB
+    // 137  mp4       1080p   avc1.640028            4.53MB
+    // 248  webm      1080p   vp9                    2.52MB
+    // 136  mp4       720p    avc1.4d4016            2.2MB
+    // 247  webm      720p    vp9                    1.44MB
+    // 135  mp4       480p    avc1.4d4014            1.1MB
+    // 134  mp4       360p    avc1.4d401e            593.26KB
+    // 140  mp4               mp4a.40.2                       128KB
+
     e.preventDefault();
     const validURL = validator.isURL(url, { require_protocol: true });
 
@@ -32,7 +49,7 @@ function App() {
         .then((res) => {
           console.log(res);
           // fileDownload(res.data, 'video.mp4');
-          fileDownload(res.data, 'nombre')
+          fileDownload(res.data, 'nombre');
         })
         .catch((err) => console.log(err));
     }
@@ -40,7 +57,8 @@ function App() {
 
   useEffect(() => {
     console.log(url);
-  }, [url]);
+    console.log(format);
+  }, [url, format]);
 
   return (
     <div className="App">
@@ -63,19 +81,26 @@ function App() {
                       className="form-control"
                       type="text"
                       placeholder="http://..."
-                      onChange={handleChange}
+                      onChange={handleUrlChange}
                     />
                   </div>
                 </div>
                 <div className="col-lg-3">
-                  <select className="custom-select" name="format">
+                  <select
+                    className="custom-select"
+                    name="format"
+                    onChange={handleFormatChange}
+                  >
+                    <option defaultValue value="0">
+                      Select Format
+                    </option>
                     <option disabled>&nbsp; Audio</option>
-                    <option>.mp3 [128kb]</option>
-                    <option>.mp3 [320kb]</option>
+                    <option value="128">.mp3 [128kb]</option>
+                    <option value="320">.mp3 [320kb]</option>
                     <option disabled>&nbsp; Video</option>
-                    <option>.mp4 [420p]</option>
-                    <option>.mp4 [720p]</option>
-                    <option>.mp4 [1080p]</option>
+                    <option value="420">.mp4 [420p]</option>
+                    <option value="720">.mp4 [720p]</option>
+                    <option value="1080">.mp4 [1080p]</option>
                   </select>
                 </div>
               </div>
