@@ -17,11 +17,12 @@ app.listen(port, () => console.log(`Server is running on port ${port}`));
 
 app.get('/download', async (req, res) => {
   try {
-    // Get http://youtube.com/watch?v=example
+    // Get http://youtube.com/watch?v=example and itag
     const url = req.query.URL;
-    // const audioOutput = path.resolve(__dirname, 'sound.mp4');
-    // const mainOutput = path.resolve(__dirname, 'output.mp4');
+    const itag = req.query.itag;
+
     console.log(url);
+    console.log(itag);
 
     // Get VideoID of URL
     const id = ytdl.getURLVideoID(url);
@@ -29,9 +30,8 @@ app.get('/download', async (req, res) => {
     // Get metainfo from video
     const info = await ytdl.getInfo(id);
 
-    // checks audio and video formats available for the video
-    // const avFormats = ytdl.filterFormats(info.formats, 'audioandvideo');
-    // console.log(avFormats);
+    // const chosenFormat = ytdl.filterFormats(info.formats, `${itag}`);
+    // console.log(chosenFormat[0]);
 
     // const onProgress = (chunkLength, downloaded, total) => {
     //   const percent = downloaded / total;
@@ -49,14 +49,15 @@ app.get('/download', async (req, res) => {
     // console.log('downloading audio track');
 
     // Header
-    res.header('Content-Disposition', 'attachment; filename="video.mp4"');
-    res.header('Content-Type', 'video/webm');
+    if (itag != 'highestaudio') {
+      res.header('Content-Disposition', 'attachment; filename="video.mp4"');
+      res.header('Content-Type', 'video/mp4');
+    } else {
+      res.header('Content-Disposition', 'attachment; filename="audio.mp3"');
+      res.header('Content-Type', 'audio/mp3');
+    }
 
-    ytdl(url).pipe(res);
-
-    // ytdl(url, {
-    //   filter: (format) => format.container === 'mp4' && !format.qualityLabel,
-    // })
+    ytdl(url, { quality: itag }).pipe(res);
     //   .on('error', console.error)
     //   .on('progress', onProgress)
 

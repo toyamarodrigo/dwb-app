@@ -7,7 +7,7 @@ import './App.scss';
 
 function App() {
   const [url, setUrl] = useState('');
-  const [format, setFormat] = useState('');
+  const [itag, setItag] = useState('')
 
   const handleUrlChange = (e) => {
     e.persist();
@@ -16,11 +16,10 @@ function App() {
 
   const handleFormatChange = (e) => {
     e.persist();
-    setFormat(e.target.value);
+    setItag(e.target.value);
   };
 
   const handleSubmit = (e) => {
-
     // itag container quality codecs                 bitrate  audio bitrate
     // 18   mp4       360p    avc1.42001E, mp4a.40.2 696.66KB 96KB
     // 137  mp4       1080p   avc1.640028            4.53MB
@@ -42,14 +41,17 @@ function App() {
       console.log(`URL is: ${url}`);
 
       axios({
-        url: `http://localhost:5000/download?URL=${url}`,
+        url: `http://localhost:5000/download?URL=${url}&itag=${itag}`,
         method: 'GET',
         responseType: 'blob',
       })
         .then((res) => {
-          console.log(res);
-          // fileDownload(res.data, 'video.mp4');
-          fileDownload(res.data, 'nombre');
+          console.log(res.data)
+          if(res.data.type !== "video/mp4"){
+            fileDownload(res.data, 'audio.mp3');
+          } else {
+            fileDownload(res.data, 'video.mp4');
+          }
         })
         .catch((err) => console.log(err));
     }
@@ -57,8 +59,8 @@ function App() {
 
   useEffect(() => {
     console.log(url);
-    console.log(format);
-  }, [url, format]);
+    console.log(itag);
+  }, [url, itag]);
 
   return (
     <div className="App">
@@ -88,19 +90,16 @@ function App() {
                 <div className="col-lg-3">
                   <select
                     className="custom-select"
-                    name="format"
+                    name="itag"
                     onChange={handleFormatChange}
                   >
                     <option defaultValue value="0">
                       Select Format
                     </option>
                     <option disabled>&nbsp; Audio</option>
-                    <option value="128">.mp3 [128kb]</option>
-                    <option value="320">.mp3 [320kb]</option>
+                    <option value="highestaudio">.mp3 [Best Quality Available]</option>
                     <option disabled>&nbsp; Video</option>
-                    <option value="420">.mp4 [420p]</option>
-                    <option value="720">.mp4 [720p]</option>
-                    <option value="1080">.mp4 [1080p]</option>
+                    <option value="highestvideo">.mp4 [Best Quality Available]</option>
                   </select>
                 </div>
               </div>
