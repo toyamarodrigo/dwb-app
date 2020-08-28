@@ -28,7 +28,7 @@ app.get('/download', async (req, res) => {
     const id = ytdl.getURLVideoID(url);
 
     // Get metainfo from video
-    const info = await ytdl.getInfo(id);
+    const info = await ytdl.getInfo(id);``
 
     // const chosenFormat = ytdl.filterFormats(info.formats, `${itag}`);
     // console.log(chosenFormat[0]);
@@ -60,8 +60,6 @@ app.get('/download', async (req, res) => {
     ytdl(url, { quality: itag }).pipe(res);
     //   .on('error', console.error)
     //   .on('progress', onProgress)
-
-    //   // Write audio to file since ffmpeg supports only one input stream
 
     //   .pipe(fs.createWriteStream(audioOutput))
     //   .on('finish', () => {
