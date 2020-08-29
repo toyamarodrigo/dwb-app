@@ -57,7 +57,19 @@ app.get('/download', async (req, res) => {
       res.header('Content-Type', 'audio/mp3');
     }
 
-    ytdl(url, { quality: itag }).pipe(res);
+    const totalSize = res.header['content-length'];
+    let dataRead = 0;
+
+    ytdl(url, { quality: itag }).pipe(res).on('data', (data) => {
+      dataRead += data.length;
+      let percent = dataRead / totalSize;
+      process.stdout.cursorTo(0);
+      process.stdout.clearLine(1);
+      process.stdout.write((percent * 100).toFixed(2) + '% ');
+    }).on('end', (data) => {
+      process.stdout.write('\n');
+    })
+    
     //   .on('error', console.error)
     //   .on('progress', onProgress)
 

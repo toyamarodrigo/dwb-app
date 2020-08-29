@@ -7,7 +7,7 @@ import './App.scss';
 
 function App() {
   const [url, setUrl] = useState('');
-  const [itag, setItag] = useState('')
+  const [itag, setItag] = useState('');
 
   const handleUrlChange = (e) => {
     e.persist();
@@ -46,8 +46,8 @@ function App() {
         responseType: 'blob',
       })
         .then((res) => {
-          console.log(res.data)
-          if(res.data.type !== "video/mp4"){
+          console.log(res.data);
+          if (res.data.type !== 'video/mp4') {
             fileDownload(res.data, 'audio.mp3');
           } else {
             fileDownload(res.data, 'video.mp4');
@@ -66,55 +66,51 @@ function App() {
     <div className="App">
       <div className="row justify-content-center align-items-center vertical-center">
         <div className="col-12">
-          <div className="container">
-            <div className="row justify-content-center">
-              <div className="col-lg-12">
-                <h1 className="text-center">DWL Youtube</h1>
+          <div className="container py-5 card">
+            <div className="row justify-content-center align-items-center">
+              <div className="col-lg-3 mx-5 py-3">
+                <h1 className="text-center display-1">DWL</h1>
               </div>
-            </div>
-          </div>
-
-          <div className="container">
-            <form onSubmit={handleSubmit}>
-              <div className="row justify-content-center">
-                <div className="col-lg-6">
-                  <div className="form-group">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="http://..."
-                      onChange={handleUrlChange}
-                    />
+              <form onSubmit={handleSubmit} className="mx-4">
+                <div className="row justify-content-center">
+                  <div className="col-lg-8">
+                    <div className="form-group">
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="http://..."
+                        onChange={handleUrlChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-lg-4">
+                    <select
+                      className="custom-select"
+                      name="itag"
+                      onChange={handleFormatChange}
+                    >
+                      <option defaultValue value="0">
+                        Format
+                      </option>
+                      <option disabled>&nbsp; Audio</option>
+                      <option value="highestaudio">.mp3 [Audio only]</option>
+                      <option disabled>&nbsp; Video</option>
+                      <option value="highestvideo">.mp4 [Video only]</option>
+                    </select>
                   </div>
                 </div>
-                <div className="col-lg-3">
-                  <select
-                    className="custom-select"
-                    name="itag"
-                    onChange={handleFormatChange}
-                  >
-                    <option defaultValue value="0">
-                      Select Format
-                    </option>
-                    <option disabled>&nbsp; Audio</option>
-                    <option value="highestaudio">.mp3 only</option>
-                    <option disabled>&nbsp; Video</option>
-                    <option value="highestvideo">.mp4 only</option>
-                    <option value="highest">.mp4 </option>
-                  </select>
+                <div className="row justify-content-center">
+                  <div className="col-lg-12 btn-container">
+                    <button
+                      type="submit"
+                      className="btn btn-success btn-block text-center"
+                    >
+                      Download
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div className="row justify-content-center">
-                <div className="col-lg-3">
-                  <button
-                    type="submit"
-                    className="btn btn-success btn-block text-center"
-                  >
-                    Download
-                  </button>
-                </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
