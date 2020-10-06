@@ -1,15 +1,34 @@
 // Require
 const express = require('express');
-const path = require('path');
+const { exec } = require('child_process');
 const cors = require('cors');
 const ytdl = require('ytdl-core');
+
 const fs = require('fs');
+
+const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 const ffmpeg = require('fluent-ffmpeg');
-const readline = require('readline');
+
+ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
 // Init
 const app = express();
-app.use(cors());
+app.use(
+  express.static('public'),
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+    exposedHeaders: ['Content-Disposition'],
+  })
+);
+
+var dir = 'public';
+var subDirectory = 'public/uploads';
+
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir);
+  fs.mkdirSync(subDirectory);
+}
 
 // Port
 const port = process.env.PORT || 5000;
@@ -28,74 +47,49 @@ app.get('/download', async (req, res) => {
     const id = ytdl.getURLVideoID(url);
 
     // Get metainfo from video
-    const info = await ytdl.getInfo(id);``
+    ytdl.getInfo(id).then((info) => {
+      const title = info.videoDetails.title;
+      console.log(title);
 
-    // const chosenFormat = ytdl.filterFormats(info.formats, `${itag}`);
-    // console.log(chosenFormat[0]);
+      if (itag !== 'mp3') {
+        const video = ytdl(url, {
+          filter: 'videoonly',
+          quality: 'highestvideo',
+        });
+        const audio = ytdl(url, {
+          filter: 'audioonly',
+          quality: 'highestaudio',
+        });
+      } else {
+        const ytdlVideo = fs.createWriteStream(
+          `${subDirectory}/${Date.now()}.mp4`
+        );
 
-    // const onProgress = (chunkLength, downloaded, total) => {
-    //   const percent = downloaded / total;
-    //   readline.cursorTo(process.stdout, 0);
-    //   process.stdout.write(`${(percent * 100).toFixed(2)}% downloaded `);
-    //   process.stdout.write(
-    //     `(${(downloaded / 1024 / 1024).toFixed(2)}MB of ${(
-    //       total /
-    //       1024 /
-    //       1024
-    //     ).toFixed(2)}MB)`
-    //   );
-    // };
+        ytdlVideo.on('finish', () => {
+          console.log(`${title} downloaded successfully`);
+          var output = `${subDirectory}/${Date.now()}output.mp3`;
 
-    // console.log('downloading audio track');
+          // ffmpeg(ytdlVideo.path).inputOption('-i').format('mp3');
+          // console.log("WOWW")
 
-    // Header
-    if (itag != 'highestaudio') {
-      res.header('Content-Disposition', 'attachment; filename="video.mp4"');
-      res.header('Content-Type', 'video/mp4');
-    } else {
-      res.header('Content-Disposition', 'attachment; filename="audio.mp3"');
-      res.header('Content-Type', 'audio/mp3');
-    }
+          exec(`ffmpeg -i ${ytdlVideo.path} ${output}`, (error) => {
+            if (error) {
+              console.log('error: ' + error.message);
+            } else {
+              console.log('File has been created');
+            }
+          });
+        });
 
-    const totalSize = res.header['content-length'];
-    let dataRead = 0;
+        const audio = ytdl(url, {
+          filter: 'audioonly',
+          quality: 'highestaudio',
+        }).pipe(ytdlVideo);
+        
+      }
+    });
 
-    ytdl(url, { quality: itag }).pipe(res).on('data', (data) => {
-      dataRead += data.length;
-      let percent = dataRead / totalSize;
-      process.stdout.cursorTo(0);
-      process.stdout.clearLine(1);
-      process.stdout.write((percent * 100).toFixed(2) + '% ');
-    }).on('end', (data) => {
-      process.stdout.write('\n');
-    })
-    
-    //   .on('error', console.error)
-    //   .on('progress', onProgress)
-
-    //   .pipe(fs.createWriteStream(audioOutput))
-    //   .on('finish', () => {
-    //     console.log('\ndownloading video');
-    //     const video = ytdl(url, {
-    //       filter: (format) =>
-    //         format.container === 'mp4' && !format.audioEncoding,
-    //     });
-    //     video.on('progress', onProgress);
-    //     ffmpeg()
-    //       .input(video)
-    //       .videoCodec('copy')
-    //       .input(audioOutput)
-    //       .audioCodec('copy')
-    //       .save(mainOutput)
-    //       .on('error', console.error)
-    //       .on('end', () => {
-    //         fs.unlink(audioOutput, (err) => {
-    //           if (err) console.error(err);
-    //           else
-    //             console.log(`\nfinished downloading, saved to ${mainOutput}`);
-    //         });
-    //       });
-    //   });
+    // ytdl(url, { filter: (format) => format.container === `${itag}` }).pipe(res);
   } catch (error) {
     console.log(error);
   }

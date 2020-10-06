@@ -93,9 +93,9 @@ function App() {
                         Format
                       </option>
                       <option disabled>&nbsp; Audio</option>
-                      <option value="highestaudio">.mp3 [Audio only]</option>
+                      <option value="mp3">.mp3 [Audio only]</option>
                       <option disabled>&nbsp; Video</option>
-                      <option value="highestvideo">.mp4 [Video only]</option>
+                      <option value="mp4">.mp4 [Video only]</option>
                     </select>
                   </div>
                 </div>
