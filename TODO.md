@@ -10,9 +10,9 @@
   * [x] MP3
   * [x] MP4 (low high)
 
-* [ ] Find a way to Download in high quality video and audio (since ytdl-core only allows high audio, high video or medium audio/video only).
+* [x] Find a way to Download in high quality video and audio (since ytdl-core only allows high audio, high video or medium audio/video only).
 
-* [ ] Add Downloading progress.
+* [ ] Add Downloading progress (Server and Client side).
 
 * [ ] Separate App into Components.
 
