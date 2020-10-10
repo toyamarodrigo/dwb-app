@@ -26,5 +26,8 @@
     "fluent-ffmpeg": "^2.1.2",
     "nodemon": "^2.0.4",
     "ytdl-core": "^3.3.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.1.2"
   }
 }
