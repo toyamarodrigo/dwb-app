@@ -8,20 +8,23 @@
 
 * [x] Add options/formats to download youtube videos or audio.
   * [x] MP3
-  * [x] MP4 (low high)
+  * [x] MP4
 
-* [x] Find a way to Download in high quality video and audio (since ytdl-core only allows high audio, high video or medium audio/video only).
+* [x] Find a way to Download in high quality video and audio.
 
-* [ ] Add Downloading progress (Server and Client side).
+* [ ] Add Downloading progress
+  * [x] Server
+  * [ ] Cliente (socket io?)
 
 * [ ] Separate App into Components.
 
 ## Less Important (for now...)
 
 * [ ] Responsive / Styles.
+  * [ ] Dark mode
 
 * [ ] Animations.
 
-* [ ] Use React-Bootstrap, custom CSS styles ??? styled-components ???
+* [x] Boostrap 4
 
 * [ ] Re-format code.
