@@ -1,7 +1,7 @@
 import axios from 'axios';
 import validator from 'validator';
 
-export const downloadFile = async (url, itag) => {
+export const downloadFile = async (url, itag, setdisplayProgressBar) => {
   try {
     const validURL = validator.isURL(url, { require_protocol: true });
 
@@ -11,7 +11,7 @@ export const downloadFile = async (url, itag) => {
       );
     } else {
       console.log(`URL is: ${url}`);
-
+      setdisplayProgressBar(true);
       axios({
         url: `http://localhost:5000/download?URL=${url}&itag=${itag}`,
         method: 'GET',

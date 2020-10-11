@@ -12,11 +12,13 @@
 
 * [x] Find a way to Download in high quality video and audio.
 
-* [ ] Add Downloading progress
+* [x] Add Downloading progress
   * [x] Server
-  * [ ] Cliente (socket io?)
+  * [x] Cliente (socket io?)
 
-* [ ] Separate App into Components.
+* [x] Separate App into Components.
+
+* [ ] Better file structure server
 
 ## Less Important (for now...)
 
@@ -28,3 +30,5 @@
 * [x] Boostrap 4
 
 * [ ] Re-format code.
+  * [?] Client
+  * [ ] Server
