@@ -8,7 +8,7 @@ The main objective of this project was to find a way to download videos from You
 
 Why?
 
-Everytime I search for a website to download a video or audio file, it doesn't work or it's full of ads.
+Everytime I looked for a website to download a video or audio files, it didn't work or was full of ads.
 
 So I created this tiny webapp where you and I can download mp3's or mp4's at their highest quality possible.
 
