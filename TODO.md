@@ -22,9 +22,13 @@
 
 * [ ] After download - Show page thank you? or click to download file.
 
-* [ ] Choose a Color pallete for the app
+* [x] Choose a Color pallete for the app
 
 * [ ] Better file structure server
+
+* [ ] Make it https://dwbyoutube.com/
+  * [ ] so then you can enter https://youtube.com/watch?v=__pUD7fm69w to https://dwbyoutube.com/watch?v=__pUD7fm69w
+  * [ ] and redirects to dwbyoutube.com with the url already pasted and ready to download
 
 ## Less Important (for now...)
 
@@ -32,6 +36,7 @@
   * [ ] Dark mode
 
 * [ ] Slogan?
+  * [?] Update Readme with new images
 
 * [ ] Animations.
 
