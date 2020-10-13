@@ -1,6 +1,6 @@
 # dwb - HQ Youtube Downloader
 
-![preview](https://i.imgur.com/bNBFEOD.png)
+![preview](https://i.imgur.com/2NUU3vd.png)
 
 ## Main objective
 
@@ -47,4 +47,4 @@ It will run client and server concurrently
 * `node-ytdl-core`, `axios`, `validator`, `@ffmpeg-installer/ffmpeg`, `fluent-ffmpeg`, `concurrently`, `cors`, `nodemon`.
 
 Screenshot:
-![preview](https://i.imgur.com/j87CH8e.png)
+![preview](https://i.imgur.com/k7pcLBR.png)

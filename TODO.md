@@ -18,12 +18,20 @@
 
 * [x] Separate App into Components.
 
+* [ ] Add Validations
+
+* [ ] After download - Show page thank you? or click to download file.
+
+* [ ] Choose a Color pallete for the app
+
 * [ ] Better file structure server
 
 ## Less Important (for now...)
 
 * [ ] Responsive / Styles.
   * [ ] Dark mode
+
+* [ ] Slogan?
 
 * [ ] Animations.
 

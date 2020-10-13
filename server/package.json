@@ -1,5 +1,5 @@
 {
-  "name": "dwlyoutube",
+  "name": "dwb-app",
   "version": "1.0.0",
   "description": "youtube downloader",
   "main": "server.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/toyamarodrigo/dwlyoutube.git"
+    "url": "git+https://github.com/toyamarodrigo/dwb-app.git"
   },
   "author": "Toyama Rodrigo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/toyamarodrigo/dwlyoutube/issues"
+    "url": "https://github.com/toyamarodrigo/dwb-app/issues"
   },
-  "homepage": "https://github.com/toyamarodrigo/dwlyoutube#readme",
+  "homepage": "https://github.com/toyamarodrigo/dwb-app#readme",
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "concurrently": "^5.3.0",

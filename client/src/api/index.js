@@ -4,11 +4,14 @@ import validator from 'validator';
 export const downloadFile = async (url, itag, setdisplayProgressBar) => {
   try {
     const validURL = validator.isURL(url, { require_protocol: true });
+    const validItag = validator.isEmpty(itag);
 
     if (!validURL) {
       console.log(
         'Please ensure this URL is correct and includes the https protocol'
       );
+    } else if (validItag) {
+      console.log('Please select format');
     } else {
       console.log(`URL is: ${url}`);
       setdisplayProgressBar(true);

@@ -5,14 +5,17 @@ import './App.scss';
 
 function App() {
   const [url, setUrl] = useState('');
-  const [itag, setItag] = useState('mp3');
-  const [checked, setChecked] = useState(true);
+  const [itag, setItag] = useState('');
+  const [checkedMP3, setCheckedMP3] = useState(false);
+  const [checkedMP4, setCheckedMP4] = useState(false);
   const [displayProgressBar, setdisplayProgressBar] = useState(false);
 
   // useEffect(() => {
   //   console.log(url);
   //   console.log(itag);
-  // }, [url, itag]);
+  //   console.log(checkedMP3);
+  //   console.log(checkedMP4);
+  // }, [url, itag, checkedMP3, checkedMP4]);
 
   return (
     <div className="App">
@@ -22,8 +25,10 @@ function App() {
             <DWB
               url={url}
               setUrl={setUrl}
-              checked={checked}
-              setChecked={setChecked}
+              checkedMP3={checkedMP3}
+              setCheckedMP3={setCheckedMP3}
+              checkedMP4={checkedMP4}
+              setCheckedMP4={setCheckedMP4}
               itag={itag}
               setItag={setItag}
               setdisplayProgressBar={setdisplayProgressBar}
