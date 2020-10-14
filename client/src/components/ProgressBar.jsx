@@ -24,6 +24,15 @@ export const ProgressBar = () => {
           ></div>
         </div>
       </div>
+      <div className="row justify-content-center align-items-center pt-5">
+        <div className="col-lg-4 btn-container">
+          <button
+            id="btn-test"
+            className="btn btn-light btn-lg btn-test btn-block text-center"
+            target="_blank"
+          ></button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -18,6 +18,10 @@
 
 * [x] Separate App into Components.
 
+* [ ] Hide Download File before progress bar completes
+
+* [ ] Download from mobile devices possible?
+
 * [ ] Add Validations
 
 * [ ] After download - Show page thank you? or click to download file.
