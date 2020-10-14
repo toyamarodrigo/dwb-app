@@ -1,8 +1,13 @@
 import axios from 'axios';
 import validator from 'validator';
-import FileSaver, { saveAs } from 'file-saver';
+import { saveAs } from 'file-saver';
 
-export const downloadFile = async (url, itag, setdisplayProgressBar) => {
+export const downloadFile = async (
+  url,
+  itag,
+  setdisplayProgressBar,
+  setBtnDownloadFile
+) => {
   try {
     const validURL = validator.isURL(url, { require_protocol: true });
     const validItag = validator.isEmpty(itag);
@@ -29,7 +34,8 @@ export const downloadFile = async (url, itag, setdisplayProgressBar) => {
           const link = document.createElement('a');
           link.href = urlWindow;
           if (res.data.type !== 'video/mp4') {
-            document.getElementById('btn-test').innerHTML = 'Download File';
+            setBtnDownloadFile(true);
+            document.getElementById('btn-test').innerHTML = 'Download file';
             document
               .getElementById('btn-test')
               .addEventListener('click', () => {
@@ -42,6 +48,8 @@ export const downloadFile = async (url, itag, setdisplayProgressBar) => {
             link.remove();
             window.URL.revokeObjectURL(url);
           } else {
+            setBtnDownloadFile(true);
+            document.getElementById('btn-test').innerHTML = 'Download file';
             document
               .getElementById('btn-test')
               .addEventListener('click', () => {

@@ -18,7 +18,7 @@
 
 * [x] Separate App into Components.
 
-* [ ] Hide Download File before progress bar completes
+* [x] Hide Download File before progress bar completes
 
 * [ ] Download from mobile devices possible?
 

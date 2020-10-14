@@ -11,6 +11,7 @@ export const DWB = ({
   itag,
   setItag,
   setdisplayProgressBar,
+  setBtnDownloadFile
 }) => {
   const handleUrlChange = (e) => {
     setUrl(e.target.value);
@@ -40,7 +41,7 @@ export const DWB = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    downloadFile(url, itag, setdisplayProgressBar);
+    downloadFile(url, itag, setdisplayProgressBar, setBtnDownloadFile);
   };
 
   return (

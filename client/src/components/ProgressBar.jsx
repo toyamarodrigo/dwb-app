@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { progressBarDownload } from '../api/socket';
 
-export const ProgressBar = () => {
+export const ProgressBar = ({ btnDownloadFile, setBtnDownloadFile }) => {
   useEffect(() => {
-    progressBarDownload();
+    progressBarDownload(setBtnDownloadFile);
   });
   return (
     <div className="container progress-bar-container">
@@ -25,12 +25,21 @@ export const ProgressBar = () => {
         </div>
       </div>
       <div className="row justify-content-center align-items-center pt-5">
-        <div className="col-lg-4 btn-container">
-          <button
-            id="btn-test"
-            className="btn btn-light btn-lg btn-test btn-block text-center"
-            target="_blank"
-          ></button>
+        <div className="col-10 col-md-6 col-lg-5 btn-container">
+          <div className="row justify-content-center align-items-center">
+            <div className="col-lg-12">
+              {btnDownloadFile ? (
+                <button
+                  id="btn-test"
+                  className="btn btn-light btn-lg btn-test btn-block text-center"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                ></button>
+              ) : (
+                ''
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

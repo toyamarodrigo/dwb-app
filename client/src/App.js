@@ -9,6 +9,7 @@ function App() {
   const [checkedMP3, setCheckedMP3] = useState(false);
   const [checkedMP4, setCheckedMP4] = useState(false);
   const [displayProgressBar, setdisplayProgressBar] = useState(false);
+  const [btnDownloadFile, setBtnDownloadFile] = useState(false);
 
   // useEffect(() => {
   //   console.log(url);
@@ -32,8 +33,16 @@ function App() {
               itag={itag}
               setItag={setItag}
               setdisplayProgressBar={setdisplayProgressBar}
+              setBtnDownloadFile={setBtnDownloadFile}
             />
-            {!displayProgressBar ? '' : <ProgressBar />}
+            {!displayProgressBar ? (
+              ''
+            ) : (
+              <ProgressBar
+                btnDownloadFile={btnDownloadFile}
+                setBtnDownloadFile={setBtnDownloadFile}
+              />
+            )}
           </div>
         </div>
         <div className="row justify-content-center align-items-center">
