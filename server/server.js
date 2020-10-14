@@ -61,6 +61,7 @@ app.get('/download', async (req, res, next) => {
         .replace(/\W/g, '');
       let starttime;
 
+      // VIDEO
       if (itag !== 'mp3') {
         const ytdlVideo = fs.createWriteStream(
           `${subDirectory}/${Date.now()}Video.mp4`
@@ -175,6 +176,7 @@ app.get('/download', async (req, res, next) => {
           });
         });
       } else {
+        // AUDIO
         const ytdlVideo = fs.createWriteStream(
           `${subDirectory}/${Date.now()}.mp4`
         );
@@ -231,6 +233,10 @@ app.get('/download', async (req, res, next) => {
               console.log('error: ' + error.message);
             } else {
               console.log('File has been created');
+              res.header(
+                'Content-Disposition',
+                'attachment; filename="Video.mp4'
+              );
               res.download(output, (err) => {
                 if (err) throw err;
                 console.log('Download started');
