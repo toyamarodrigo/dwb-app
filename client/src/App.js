@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { DWB, ProgressBar, Footer } from './components/index';
 
 import './App.scss';
@@ -10,13 +10,6 @@ function App() {
   const [checkedMP4, setCheckedMP4] = useState(false);
   const [displayProgressBar, setdisplayProgressBar] = useState(false);
   const [btnDownloadFile, setBtnDownloadFile] = useState(false);
-
-  // useEffect(() => {
-  //   console.log(url);
-  //   console.log(itag);
-  //   console.log(checkedMP3);
-  //   console.log(checkedMP4);
-  // }, [url, itag, checkedMP3, checkedMP4]);
 
   return (
     <div className="App">
