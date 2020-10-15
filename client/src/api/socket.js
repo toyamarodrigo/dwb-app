@@ -1,7 +1,8 @@
 import io from 'socket.io-client';
 
-export const progressBarDownload = () => {
+export const progressBarDownload = (setStartDownload) => {
   const socket = io();
+  setStartDownload(true);
   socket.on('downloadingAudio', (data) => {
     let startDownload = (data.downloaded / 1024 / 1024).toFixed(2);
     let endDownload = (data.total / 1024 / 1024).toFixed(2);
