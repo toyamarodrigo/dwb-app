@@ -50,9 +50,9 @@ export const ProgressBar = ({ btnDownloadFile }) => {
         </div>
       )}
       <div className="row justify-content-center align-items-center pt-5">
-        <div className="col-10 col-md-6 col-lg-5 btn-container">
+        <div className="col-10 col-md-6 col-lg-5 mx-4 btn-container">
           <div className="row justify-content-center align-items-center">
-            <div className="col-lg-12">
+            <div className="col-12 col-md-6">
               {btnDownloadFile ? (
                 <button
                   id="btn-test"
