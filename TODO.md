@@ -22,7 +22,7 @@
 
 * [ ] Download from mobile devices possible?
 
-* [ ] Add Validations
+* [x] Add Validations
 
 * [ ] After download - Show page thank you? or click to download file.
 

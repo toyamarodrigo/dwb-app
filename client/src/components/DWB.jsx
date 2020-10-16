@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { downloadFile } from '../api/index';
 import { validate } from '../api/validate';
 
@@ -66,13 +66,20 @@ export const DWB = ({
                 <input
                   className={
                     hasError('url')
-                      ? 'form-control url-input is-invalid'
-                      : 'form-control url-input'
+                      ? 'form-control is-invalid'
+                      : 'form-control'
                   }
                   type="text"
                   placeholder="https://..."
                   onChange={handleUrlChange}
                 />
+                {hasError('url') ? (
+                  <small className="text-danger font-weight-bold">
+                    Please ensure this URL is correct and includes the https protocol
+                  </small>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
           </div>
@@ -132,7 +139,7 @@ export const DWB = ({
                   width="1em"
                   height="1em"
                   viewBox="0 0 16 16"
-                  className="bi bi-download "
+                  className="bi bi-download mx-2"
                   fill="currentColor"
                   xmlns="http://www.w3.org/2000/svg"
                 >

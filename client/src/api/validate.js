@@ -7,14 +7,10 @@ export const validate = (url, itag, setError) => {
   let isValid = true;
 
   if (!validURL) {
-    console.log(
-      'Please ensure this URL is correct and includes the https protocol'
-    );
     errors.push('url');
     isValid = false;
   }
   if (validItag) {
-    console.log('Please select format');
     errors.push('itag');
     isValid = false;
   }

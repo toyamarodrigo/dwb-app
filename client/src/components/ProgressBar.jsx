@@ -5,7 +5,7 @@ export const ProgressBar = ({ btnDownloadFile }) => {
   const [startDownload, setStartDownload] = useState(false);
   useEffect(() => {
     progressBarDownload(setStartDownload);
-  });
+  },[]);
   return (
     <div className="container progress-bar-container">
       {startDownload ? (
@@ -52,7 +52,7 @@ export const ProgressBar = ({ btnDownloadFile }) => {
       <div className="row justify-content-center align-items-center pt-5">
         <div className="col-10 col-md-6 col-lg-5 mx-4 btn-container">
           <div className="row justify-content-center align-items-center">
-            <div className="col-12 col-md-6">
+            <div className="col-12 col-md-7">
               {btnDownloadFile ? (
                 <button
                   id="btn-test"

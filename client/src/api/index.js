@@ -27,7 +27,7 @@ export const downloadFile = async (
           document.getElementById('btn-test').addEventListener('click', () => {
             saveAs(url, 'file.mp3');
           });
-          link.setAttribute('download', 'file.mp3'); //or any other extension
+          link.setAttribute('download', 'file.mp3');
           document.body.appendChild(link);
           window.open(link);
           link.click();
@@ -38,7 +38,7 @@ export const downloadFile = async (
           document.getElementById('btn-test').addEventListener('click', () => {
             saveAs(url, 'file.mp4');
           });
-          link.setAttribute('download', 'file.mp4'); //or any other extension
+          link.setAttribute('download', 'file.mp4');
           document.body.appendChild(link);
           window.open(link);
           link.click();

@@ -19,15 +19,6 @@ body {
   min-height: 90vh;
 }
 
-.url-input {
-  .is-invalid {
-    border-color: #dc3545;
-  }
-  &:hover {
-    border-color: #1f8ea3;
-  }
-}
-
 .btn-format {
   background-color: $format-active !important;
   border-color: #9ad4f2;

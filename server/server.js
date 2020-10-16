@@ -21,12 +21,12 @@ const io = socketIo(server);
 
 io.on('connection', (socket) => {
   console.log('a user connected');
-
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
 });
 
+// Dir creation
 var dir = 'public';
 var subDirectory = 'public/uploads';
 
@@ -61,7 +61,7 @@ app.get('/download', async (req, res, next) => {
         .replace(/\W/g, '');
       let starttime;
 
-      // VIDEO
+      // VIDEO DOWNLOAD
       if (itag !== 'mp3') {
         const ytdlVideo = fs.createWriteStream(
           `${subDirectory}/${Date.now()}Video.mp4`
@@ -75,12 +75,14 @@ app.get('/download', async (req, res, next) => {
           quality: 'highestaudio',
         });
 
+        // Download audio first
         audio.pipe(ytdlAudio);
 
         audio.once('response', () => {
           starttime = Date.now();
         });
 
+        // Download Progress
         audio.on('progress', (chunkLength, downloaded, total) => {
           const percent = downloaded / total;
           const downloadedMinutes = (Date.now() - starttime) / 1000 / 60;
@@ -106,8 +108,10 @@ app.get('/download', async (req, res, next) => {
 
         const output = `${title}`;
 
+        //  Audio Download finish, start Video Download
         ytdlAudio.on('finish', () => {
           console.log(`${title} downloaded audio successfully`);
+          // Start Video Download
           const video = ytdl(url, {
             filter: 'videoonly',
             quality: 'highestvideo',
@@ -115,6 +119,7 @@ app.get('/download', async (req, res, next) => {
           video.once('response', () => {
             starttime = Date.now();
           });
+          // Download Progress
           video.on('progress', (chunkLength, downloaded, total) => {
             const percent = downloaded / total;
             const downloadedMinutes = (Date.now() - starttime) / 1000 / 60;
@@ -147,9 +152,13 @@ app.get('/download', async (req, res, next) => {
               });
             }, 200);
           });
+
           video.pipe(ytdlVideo);
+
+          // Video Download on finish
           ytdlVideo.on('finish', () => {
             console.log(`${title} downloaded video successfully`),
+              // Execute ffmpeg
               exec(
                 `ffmpeg -i ${ytdlVideo.path} -i ${ytdlAudio.path} -c:v copy -c:a aac ${subDirectory}/${output}.mp4`,
                 (error) => {
@@ -162,12 +171,14 @@ app.get('/download', async (req, res, next) => {
                       'Content-Disposition',
                       'attachment; filename="Video.mp4'
                     );
+                    // Send it to the client
                     res.download(ytdlFinal, (err) => {
                       if (err) throw err;
+                      console.log('Download send');
                       fs.unlinkSync(ytdlVideo.path);
                       fs.unlinkSync(ytdlAudio.path);
                       fs.unlinkSync(ytdlFinal);
-                      console.log('termino');
+                      console.log('Deleted files from server');
                       res.end();
                     });
                   }
@@ -176,11 +187,12 @@ app.get('/download', async (req, res, next) => {
           });
         });
       } else {
-        // AUDIO
+        // DOWNLOAD AUDIO
         const ytdlVideo = fs.createWriteStream(
           `${subDirectory}/${Date.now()}.mp4`
         );
 
+        // Download as audio as video first
         const video = ytdl(url, {
           filter: 'audioonly',
           quality: 'highestaudio',
@@ -192,6 +204,7 @@ app.get('/download', async (req, res, next) => {
           starttime = Date.now();
         });
 
+        // Download Progress
         video.on('progress', (chunkLength, downloaded, total) => {
           const percent = downloaded / total;
           const downloadedMinutes = (Date.now() - starttime) / 1000 / 60;
@@ -223,6 +236,7 @@ app.get('/download', async (req, res, next) => {
           }, 100);
         });
 
+        // Video Download on finish
         ytdlVideo.on('finish', () => {
           process.stdout.write('\n\n');
           console.log(`${title} downloaded successfully`);
@@ -238,10 +252,12 @@ app.get('/download', async (req, res, next) => {
                 'attachment; filename="Video.mp4'
               );
               res.download(output, (err) => {
+                // Download send to the client
                 if (err) throw err;
                 console.log('Download started');
                 fs.unlinkSync(ytdlVideo.path);
                 fs.unlinkSync(output);
+                console.log('Deleted files from server');
                 res.end();
               });
             }
@@ -251,5 +267,6 @@ app.get('/download', async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
+    next(error);
   }
 });
