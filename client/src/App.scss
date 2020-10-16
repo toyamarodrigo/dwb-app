@@ -20,7 +20,9 @@ body {
 }
 
 .url-input {
-  border: none;
+  .is-invalid {
+    border-color: #dc3545;
+  }
   &:hover {
     border-color: #1f8ea3;
   }
@@ -49,11 +51,13 @@ body {
   margin-top: 1rem;
 }
 
-.hide-btn, .hide-progressbar {
+.hide-btn,
+.hide-progressbar {
   opacity: 0;
 }
 
-.display-btn, .display-progressbar {
+.display-btn,
+.display-progressbar {
   opacity: 1;
   transition: 0.5s all;
 }

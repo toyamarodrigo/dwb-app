@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { downloadFile } from '../api/index';
+import { validate } from '../api/validate';
 
 export const DWB = ({
   url,
@@ -11,8 +12,9 @@ export const DWB = ({
   itag,
   setItag,
   setdisplayProgressBar,
-  setBtnDownloadFile
+  setBtnDownloadFile,
 }) => {
+  const [error, setError] = useState([]);
   const handleUrlChange = (e) => {
     setUrl(e.target.value);
   };
@@ -41,7 +43,14 @@ export const DWB = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    downloadFile(url, itag, setdisplayProgressBar, setBtnDownloadFile);
+    console.log(validate(url, itag, setError));
+    if (validate(url, itag, setError)) {
+      downloadFile(url, itag, setdisplayProgressBar, setBtnDownloadFile);
+    }
+  };
+
+  const hasError = (key) => {
+    return error.indexOf(key) !== -1;
   };
 
   return (
@@ -55,7 +64,11 @@ export const DWB = ({
             <div className="col-lg-12">
               <div className="form-group">
                 <input
-                  className="form-control url-input"
+                  className={
+                    hasError('url')
+                      ? 'form-control url-input is-invalid'
+                      : 'form-control url-input'
+                  }
                   type="text"
                   placeholder="https://..."
                   onChange={handleUrlChange}
@@ -99,6 +112,15 @@ export const DWB = ({
                 MP4
               </label>
             </div>
+            <div className="col-12">
+              {hasError('itag') ? (
+                <small className="text-danger font-weight-bold">
+                  Please select a format
+                </small>
+              ) : (
+                ''
+              )}
+            </div>
           </div>
           <div className="row justify-content-center align-items-center">
             <div className="col-lg-12 btn-container">
@@ -110,7 +132,7 @@ export const DWB = ({
                   width="1em"
                   height="1em"
                   viewBox="0 0 16 16"
-                  className="bi bi-download mx-2 align-items-center"
+                  className="bi bi-download "
                   fill="currentColor"
                   xmlns="http://www.w3.org/2000/svg"
                 >
