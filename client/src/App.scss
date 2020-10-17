@@ -1,0 +1,70 @@
+$background: #bce5f5;
+$title: #041c29;
+$format-active: #144673;
+$download: #00c9b1;
+
+body {
+  background-color: $background !important;
+  font-family: 'Fira Sans', sans-serif;
+}
+
+.title {
+  font-family: 'Pacifico', cursive;
+  font-size: 8rem;
+  color: $title;
+}
+
+.vertical-center {
+  min-height: 100%;
+  min-height: 90vh;
+}
+
+.btn-format {
+  background-color: $format-active !important;
+  border-color: #9ad4f2;
+  color: #dfedf2;
+  &:hover {
+    background-color: #27a4f2 !important;
+    color: #dfedf2;
+  }
+}
+
+.btn-download {
+  background-color: $download !important;
+  color: #dfedf2;
+  &:hover {
+    background-color: #b5ff7d !important;
+    border-color: none !important;
+  }
+}
+
+.btn-container {
+  margin-top: 1rem;
+}
+
+.hide-btn,
+.hide-progressbar {
+  opacity: 0;
+}
+
+.display-btn,
+.display-progressbar {
+  opacity: 1;
+  transition: 0.5s all;
+}
+
+.footer {
+  min-height: 100%;
+  min-height: 10vh;
+}
+.contact {
+  &.github,
+  &.ig,
+  &.linkedin,
+  &.mail {
+    color: $title;
+    &:hover {
+      color: $download;
+    }
+  }
+}
