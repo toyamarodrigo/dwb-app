@@ -65,9 +65,7 @@ export const DWB = ({
               <div className="form-group">
                 <input
                   className={
-                    hasError('url')
-                      ? 'form-control is-invalid'
-                      : 'form-control'
+                    hasError('url') ? 'form-control is-invalid' : 'form-control'
                   }
                   type="text"
                   placeholder="https://..."
@@ -75,11 +73,10 @@ export const DWB = ({
                 />
                 {hasError('url') ? (
                   <small className="text-danger font-weight-bold">
-                    Please ensure this URL is correct and includes the https protocol
+                    Please ensure this URL is correct and includes the https
+                    protocol
                   </small>
-                ) : (
-                  ''
-                )}
+                ) : null}
               </div>
             </div>
           </div>
@@ -124,9 +121,7 @@ export const DWB = ({
                 <small className="text-danger font-weight-bold">
                   Please select a format
                 </small>
-              ) : (
-                ''
-              )}
+              ) : null}
             </div>
           </div>
           <div className="row justify-content-center align-items-center">

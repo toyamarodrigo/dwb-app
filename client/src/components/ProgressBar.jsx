@@ -5,7 +5,7 @@ export const ProgressBar = ({ btnDownloadFile }) => {
   const [startDownload, setStartDownload] = useState(false);
   useEffect(() => {
     progressBarDownload(setStartDownload);
-  },[]);
+  }, []);
   return (
     <div className="container progress-bar-container">
       {startDownload ? (
@@ -77,9 +77,7 @@ export const ProgressBar = ({ btnDownloadFile }) => {
                   </svg>
                   Download file
                 </button>
-              ) : (
-                ''
-              )}
+              ) : null}
             </div>
           </div>
         </div>
