@@ -1,12 +1,14 @@
 import validator from 'validator';
+const ytdl = require('ytdl-core');
 
 export const validate = (url, itag, setError) => {
-  const validURL = validator.isURL(url, { require_protocol: true });
   const validItag = validator.isEmpty(itag);
+  const validYTUrl = ytdl.validateURL(url);
+
   let errors = [];
   let isValid = true;
 
-  if (!validURL) {
+  if (!validYTUrl) {
     errors.push('url');
     isValid = false;
   }
@@ -17,5 +19,6 @@ export const validate = (url, itag, setError) => {
 
   setError(errors);
 
+  console.log('isValid ' + isValid);
   return isValid;
 };
