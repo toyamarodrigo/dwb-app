@@ -54,71 +54,162 @@ app.get('/download', async (req, res, next) => {
     const id = ytdl.getURLVideoID(url);
 
     // Get metainfo from video
-    ytdl.getInfo(id).then((info) => {
-      const title = info.videoDetails.title
-        .split(' ')
-        .join('')
-        .replace(/\W/g, '');
-      let starttime;
+    ytdl
+      .getInfo(id)
+      .then((info) => {
+        const title = info.videoDetails.title
+          .split(' ')
+          .join('')
+          .replace(/\W/g, '');
+        let starttime;
 
-      // VIDEO DOWNLOAD
-      if (itag !== 'mp3') {
-        const ytdlVideo = fs.createWriteStream(
-          `${subDirectory}/${Date.now()}Video.mp4`
-        );
-        const ytdlAudio = fs.createWriteStream(
-          `${subDirectory}/${Date.now()}Audio.mp4`
-        );
-
-        const audio = ytdl(url, {
-          filter: 'audioonly',
-          quality: 'highestaudio',
-        });
-
-        // Download audio first
-        audio.pipe(ytdlAudio);
-
-        audio.once('response', () => {
-          starttime = Date.now();
-        });
-
-        // Download Progress
-        audio.on('progress', (chunkLength, downloaded, total) => {
-          const percent = downloaded / total;
-          const downloadedMinutes = (Date.now() - starttime) / 1000 / 60;
-          const estimatedDownloadTime =
-            downloadedMinutes / percent - downloadedMinutes;
-          readline.cursorTo(process.stdout, 0);
-          process.stdout.write(`${(percent * 100).toFixed(2)}% downloaded `);
-          process.stdout.write(
-            `(${(downloaded / 1024 / 1024).toFixed(2)}MB of ${(
-              total /
-              1024 /
-              1024
-            ).toFixed(2)}MB)\n`
+        // VIDEO DOWNLOAD
+        if (itag !== 'mp3') {
+          const ytdlVideo = fs.createWriteStream(
+            `${subDirectory}/${Date.now()}Video.mp4`
           );
-          process.stdout.write(
-            `running for: ${downloadedMinutes.toFixed(2)}minutes`
+          const ytdlAudio = fs.createWriteStream(
+            `${subDirectory}/${Date.now()}Audio.mp4`
           );
-          process.stdout.write(
-            `, estimated time left: ${estimatedDownloadTime.toFixed(2)}minutes `
-          );
-          readline.moveCursor(process.stdout, 0, -1);
-        });
 
-        const output = `${title}`;
-
-        //  Audio Download finish, start Video Download
-        ytdlAudio.on('finish', () => {
-          console.log(`${title} downloaded audio successfully`);
-          // Start Video Download
-          const video = ytdl(url, {
-            filter: 'videoonly',
-            quality: 'highestvideo',
+          const audio = ytdl(url, {
+            filter: 'audioonly',
+            quality: 'highestaudio',
           });
+
+          // Download audio first
+          audio.pipe(ytdlAudio);
+
+          audio.once('response', () => {
+            starttime = Date.now();
+          });
+
+          // Download Progress
+          audio.on('progress', (chunkLength, downloaded, total) => {
+            const percent = downloaded / total;
+            const downloadedMinutes = (Date.now() - starttime) / 1000 / 60;
+            const estimatedDownloadTime =
+              downloadedMinutes / percent - downloadedMinutes;
+            readline.cursorTo(process.stdout, 0);
+            process.stdout.write(`${(percent * 100).toFixed(2)}% downloaded `);
+            process.stdout.write(
+              `(${(downloaded / 1024 / 1024).toFixed(2)}MB of ${(
+                total /
+                1024 /
+                1024
+              ).toFixed(2)}MB)\n`
+            );
+            process.stdout.write(
+              `running for: ${downloadedMinutes.toFixed(2)}minutes`
+            );
+            process.stdout.write(
+              `, estimated time left: ${estimatedDownloadTime.toFixed(
+                2
+              )}minutes `
+            );
+            readline.moveCursor(process.stdout, 0, -1);
+          });
+
+          const output = `${title}`;
+
+          //  Audio Download finish, start Video Download
+          ytdlAudio.on('finish', () => {
+            console.log(`${title} downloaded audio successfully`);
+            // Start Video Download
+            const video = ytdl(url, {
+              filter: 'videoonly',
+              quality: 'highestvideo',
+            });
+            video.once('response', () => {
+              starttime = Date.now();
+            });
+            // Download Progress
+            video.on('progress', (chunkLength, downloaded, total) => {
+              const percent = downloaded / total;
+              const downloadedMinutes = (Date.now() - starttime) / 1000 / 60;
+              const estimatedDownloadTime =
+                downloadedMinutes / percent - downloadedMinutes;
+              readline.cursorTo(process.stdout, 0);
+              process.stdout.write(
+                `${(percent * 100).toFixed(2)}% downloaded `
+              );
+              process.stdout.write(
+                `(${(downloaded / 1024 / 1024).toFixed(2)}MB of ${(
+                  total /
+                  1024 /
+                  1024
+                ).toFixed(2)}MB)\n`
+              );
+              process.stdout.write(
+                `running for: ${downloadedMinutes.toFixed(2)}minutes`
+              );
+              process.stdout.write(
+                `, estimated time left: ${estimatedDownloadTime.toFixed(
+                  2
+                )}minutes `
+              );
+              readline.moveCursor(process.stdout, 0, -1);
+              setTimeout(() => {
+                io.emit('downloadingVideo', {
+                  downloaded: downloaded,
+                  total: total,
+                  percent: percent,
+                  estimatedDownloadTime: estimatedDownloadTime,
+                });
+              }, 200);
+            });
+
+            video.pipe(ytdlVideo);
+
+            // Video Download on finish
+            ytdlVideo.on('finish', () => {
+              console.log(`${title} downloaded video successfully`),
+                // Execute ffmpeg
+                exec(
+                  `ffmpeg -i ${ytdlVideo.path} -i ${ytdlAudio.path} -c:v copy -c:a aac ${subDirectory}/${output}.mp4`,
+                  (error) => {
+                    if (error) {
+                      console.log('error: ' + error.message);
+                    } else {
+                      console.log('File has been created');
+                      const ytdlFinal = `${subDirectory}/${output}.mp4`;
+                      res.header(
+                        'Content-Disposition',
+                        'attachment; filename="Video.mp4'
+                      );
+                      // Send it to the client
+                      res.download(ytdlFinal, (err) => {
+                        if (err) throw err;
+                        console.log('Download send');
+                        fs.unlinkSync(ytdlVideo.path);
+                        fs.unlinkSync(ytdlAudio.path);
+                        fs.unlinkSync(ytdlFinal);
+                        console.log('Deleted files from server');
+                        res.end();
+                      });
+                    }
+                  }
+                );
+            });
+          });
+        } else {
+          // DOWNLOAD AUDIO
+          const ytdlVideo = fs.createWriteStream(
+            `${subDirectory}/${Date.now()}.mp4`
+          );
+
+          // Download as audio as video first
+          const video = ytdl(url, {
+            filter: 'audioonly',
+            quality: 'highestaudio',
+          });
+
+          video.pipe(ytdlVideo);
+
           video.once('response', () => {
             starttime = Date.now();
           });
+
           // Download Progress
           video.on('progress', (chunkLength, downloaded, total) => {
             const percent = downloaded / total;
@@ -144,127 +235,47 @@ app.get('/download', async (req, res, next) => {
             );
             readline.moveCursor(process.stdout, 0, -1);
             setTimeout(() => {
-              io.emit('downloadingVideo', {
+              io.emit('downloadingAudio', {
                 downloaded: downloaded,
                 total: total,
                 percent: percent,
                 estimatedDownloadTime: estimatedDownloadTime,
               });
-            }, 200);
+            }, 100);
           });
-
-          video.pipe(ytdlVideo);
 
           // Video Download on finish
           ytdlVideo.on('finish', () => {
-            console.log(`${title} downloaded video successfully`),
-              // Execute ffmpeg
-              exec(
-                `ffmpeg -i ${ytdlVideo.path} -i ${ytdlAudio.path} -c:v copy -c:a aac ${subDirectory}/${output}.mp4`,
-                (error) => {
-                  if (error) {
-                    console.log('error: ' + error.message);
-                  } else {
-                    console.log('File has been created');
-                    const ytdlFinal = `${subDirectory}/${output}.mp4`;
-                    res.header(
-                      'Content-Disposition',
-                      'attachment; filename="Video.mp4'
-                    );
-                    // Send it to the client
-                    res.download(ytdlFinal, (err) => {
-                      if (err) throw err;
-                      console.log('Download send');
-                      fs.unlinkSync(ytdlVideo.path);
-                      fs.unlinkSync(ytdlAudio.path);
-                      fs.unlinkSync(ytdlFinal);
-                      console.log('Deleted files from server');
-                      res.end();
-                    });
-                  }
-                }
-              );
-          });
-        });
-      } else {
-        // DOWNLOAD AUDIO
-        const ytdlVideo = fs.createWriteStream(
-          `${subDirectory}/${Date.now()}.mp4`
-        );
+            process.stdout.write('\n\n');
+            console.log(`${title} downloaded successfully`);
+            var output = `${subDirectory}/${Date.now()}output.mp3`;
 
-        // Download as audio as video first
-        const video = ytdl(url, {
-          filter: 'audioonly',
-          quality: 'highestaudio',
-        });
-
-        video.pipe(ytdlVideo);
-
-        video.once('response', () => {
-          starttime = Date.now();
-        });
-
-        // Download Progress
-        video.on('progress', (chunkLength, downloaded, total) => {
-          const percent = downloaded / total;
-          const downloadedMinutes = (Date.now() - starttime) / 1000 / 60;
-          const estimatedDownloadTime =
-            downloadedMinutes / percent - downloadedMinutes;
-          readline.cursorTo(process.stdout, 0);
-          process.stdout.write(`${(percent * 100).toFixed(2)}% downloaded `);
-          process.stdout.write(
-            `(${(downloaded / 1024 / 1024).toFixed(2)}MB of ${(
-              total /
-              1024 /
-              1024
-            ).toFixed(2)}MB)\n`
-          );
-          process.stdout.write(
-            `running for: ${downloadedMinutes.toFixed(2)}minutes`
-          );
-          process.stdout.write(
-            `, estimated time left: ${estimatedDownloadTime.toFixed(2)}minutes `
-          );
-          readline.moveCursor(process.stdout, 0, -1);
-          setTimeout(() => {
-            io.emit('downloadingAudio', {
-              downloaded: downloaded,
-              total: total,
-              percent: percent,
-              estimatedDownloadTime: estimatedDownloadTime,
+            exec(`ffmpeg -i ${ytdlVideo.path} ${output}`, (error) => {
+              if (error) {
+                console.log('error: ' + error.message);
+              } else {
+                console.log('File has been created');
+                res.header(
+                  'Content-Disposition',
+                  'attachment; filename="Video.mp4'
+                );
+                res.download(output, (err) => {
+                  // Download send to the client
+                  if (err) throw err;
+                  console.log('Download started');
+                  fs.unlinkSync(ytdlVideo.path);
+                  fs.unlinkSync(output);
+                  console.log('Deleted files from server');
+                  res.end();
+                });
+              }
             });
-          }, 100);
-        });
-
-        // Video Download on finish
-        ytdlVideo.on('finish', () => {
-          process.stdout.write('\n\n');
-          console.log(`${title} downloaded successfully`);
-          var output = `${subDirectory}/${Date.now()}output.mp3`;
-
-          exec(`ffmpeg -i ${ytdlVideo.path} ${output}`, (error) => {
-            if (error) {
-              console.log('error: ' + error.message);
-            } else {
-              console.log('File has been created');
-              res.header(
-                'Content-Disposition',
-                'attachment; filename="Video.mp4'
-              );
-              res.download(output, (err) => {
-                // Download send to the client
-                if (err) throw err;
-                console.log('Download started');
-                fs.unlinkSync(ytdlVideo.path);
-                fs.unlinkSync(output);
-                console.log('Deleted files from server');
-                res.end();
-              });
-            }
           });
-        });
-      }
-    });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   } catch (error) {
     console.log(error);
     next(error);
