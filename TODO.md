@@ -28,6 +28,8 @@
 
 * [x] Choose a Color pallete for the app
 
+* [ ] Fix progress bar may show in every computer
+
 * [ ] Better file structure server
 
 * [ ] Make it https://dwbyoutube.com/
