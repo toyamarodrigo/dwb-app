@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DWB, ProgressBar, Footer } from './components/index';
+import { DWB, Footer } from './components/index';
 
 import './App.scss';
 
@@ -8,8 +8,6 @@ function App() {
   const [itag, setItag] = useState('');
   const [checkedMP3, setCheckedMP3] = useState(false);
   const [checkedMP4, setCheckedMP4] = useState(false);
-  const [displayProgressBar, setdisplayProgressBar] = useState(false);
-  const [btnDownloadFile, setBtnDownloadFile] = useState(false);
 
   return (
     <div className="App">
@@ -25,17 +23,7 @@ function App() {
               setCheckedMP4={setCheckedMP4}
               itag={itag}
               setItag={setItag}
-              setdisplayProgressBar={setdisplayProgressBar}
-              setBtnDownloadFile={setBtnDownloadFile}
             />
-            {!displayProgressBar ? (
-              ''
-            ) : (
-              <ProgressBar
-                btnDownloadFile={btnDownloadFile}
-                setBtnDownloadFile={setBtnDownloadFile}
-              />
-            )}
           </div>
         </div>
         <div className="row justify-content-center align-items-center">

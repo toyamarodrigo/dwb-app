@@ -1,15 +1,8 @@
 import axios from 'axios';
-import { saveAs } from 'file-saver';
 
-export const downloadFile = async (
-  url,
-  itag,
-  setdisplayProgressBar,
-  setBtnDownloadFile
-) => {
+export const downloadFile = async (url, itag, setLoaderSpinner) => {
   try {
     console.log(`URL is: ${url}`);
-    setdisplayProgressBar(true);
     axios({
       url: `http://localhost:5000/download?URL=${url}&itag=${itag}`,
       // url: `https://rt-dwb-app.herokuapp.com/download?URL=${url}&itag=${itag}`,
@@ -23,27 +16,27 @@ export const downloadFile = async (
         const link = document.createElement('a');
         link.href = urlWindow;
         if (res.data.type !== 'video/mp4') {
-          setBtnDownloadFile(true);
-          document.getElementById('btn-test').addEventListener('click', () => {
-            saveAs(url, 'file.mp3');
-          });
+          // document.getElementById('btn-test').addEventListener('click', () => {
+          //   saveAs(url, 'file.mp3');
+          // });
           link.setAttribute('download', 'file.mp3');
           document.body.appendChild(link);
           window.open(link);
           link.click();
           link.remove();
           window.URL.revokeObjectURL(url);
+          setLoaderSpinner(false);
         } else {
-          setBtnDownloadFile(true);
-          document.getElementById('btn-test').addEventListener('click', () => {
-            saveAs(url, 'file.mp4');
-          });
+          // document.getElementById('btn-test').addEventListener('click', () => {
+          //   saveAs(url, 'file.mp4');
+          // });
           link.setAttribute('download', 'file.mp4');
           document.body.appendChild(link);
           window.open(link);
           link.click();
           link.remove();
           window.URL.revokeObjectURL(url);
+          setLoaderSpinner(false);
         }
       })
       .catch((err) => console.log(err));

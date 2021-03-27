@@ -1,5 +1,6 @@
 // Require
 const express = require('express');
+// const timeout = require('connect-timeout');
 const ytdl = require('ytdl-core');
 const fs = require('fs');
 const { exec } = require('child_process');
@@ -7,7 +8,6 @@ const readline = require('readline');
 const cors = require('cors');
 const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 const ffmpeg = require('fluent-ffmpeg');
-const socketIo = require('socket.io');
 const http = require('http');
 
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
@@ -15,16 +15,11 @@ ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 // Init
 const app = express();
 const server = http.createServer(app);
+
+// Middleware
+// app.use(timeout('600s'));
 app.use(express.static('public'));
 app.use(cors());
-const io = socketIo(server);
-
-io.on('connection', (socket) => {
-  console.log('a user connected');
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
-});
 
 // Dir creation
 var dir = 'public';
@@ -41,7 +36,7 @@ server.listen(port, () => console.log(`Server is running on port ${port}`));
 
 // Download
 app.get('/download', async (req, res, next) => {
-  req.setTimeout(500000);
+  req.setTimeout(0);
   try {
     // Get http://youtube.com/watch?v=example and itag
     const url = req.query.URL;
@@ -149,14 +144,6 @@ app.get('/download', async (req, res, next) => {
                 )}minutes `
               );
               readline.moveCursor(process.stdout, 0, -1);
-              setTimeout(() => {
-                io.emit('downloadingVideo', {
-                  downloaded: downloaded,
-                  total: total,
-                  percent: percent,
-                  estimatedDownloadTime: estimatedDownloadTime,
-                });
-              }, 200);
             });
 
             video.pipe(ytdlVideo);
@@ -234,14 +221,6 @@ app.get('/download', async (req, res, next) => {
               )}minutes `
             );
             readline.moveCursor(process.stdout, 0, -1);
-            setTimeout(() => {
-              io.emit('downloadingAudio', {
-                downloaded: downloaded,
-                total: total,
-                percent: percent,
-                estimatedDownloadTime: estimatedDownloadTime,
-              });
-            }, 100);
           });
 
           // Video Download on finish
