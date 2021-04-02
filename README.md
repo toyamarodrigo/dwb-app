@@ -47,4 +47,4 @@ It will run client and server concurrently
 * `node-ytdl-core`, `axios`, `validator`, `@ffmpeg-installer/ffmpeg`, `fluent-ffmpeg`, `concurrently`, `cors`, `nodemon`.
 
 Screenshot:
-![preview](https://i.imgur.com/k7pcLBR.png)
+![preview](https://i.imgur.com/ResmxWa.png)
