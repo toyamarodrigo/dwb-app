@@ -12,12 +12,20 @@
     "@chakra-ui/react": "^1.6.2",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "aos": "^2.3.4",
     "concurrently": "^6.2.0",
+    "formik": "^2.2.8",
     "framer-motion": "^4",
     "next": "10.2.3",
-    "node-sass": "^6.0.0",
+    "node-sass": "^5.0.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "styled-components": "^5.3.0",
+    "ytdl-core": "^4.8.0",
+    "yup": "^0.32.9"
   }
 }
