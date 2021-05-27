@@ -7,7 +7,7 @@ export const RadioButtons = (props) => {
   const checkbox = getCheckboxProps();
 
   return (
-    <Box as="label" w="100%" onChange={props.handleChange}>
+    <>
       <input {...input} />
       <Box
         {...checkbox}
@@ -31,6 +31,6 @@ export const RadioButtons = (props) => {
       >
         {props.children}
       </Box>
-    </Box>
+    </>
   );
 };
