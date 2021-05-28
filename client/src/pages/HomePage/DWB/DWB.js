@@ -10,34 +10,33 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
-import { DownloadIcon } from '@chakra-ui/icons';
+import { DownloadIcon, CheckIcon } from '@chakra-ui/icons';
 import { RadioButtons } from './RadioButtons/RadioButtons';
 import { validateURL, validateFormat } from '../../../utils/validation';
 import styled from 'styled-components';
 import { getDownload } from '../../../api/fetch';
 
-export const DWB = () => {
+export const DWB = ({ progress, setProgress, setPercentage }) => {
   const submitForm = (values, actions) => {
+    setProgress(null);
+    setPercentage(0);
     const formData = JSON.stringify(values, null, 2);
-    
     actions.setSubmitting(false);
     (async () => {
-      const result = await getDownload(formData);
-  
-    })()
-    
-
+      const result = await getDownload(formData, setProgress, setPercentage);
+    })();
   };
+
   return (
     <Stack
       direction={{ base: 'column', lg: 'row' }}
       justifyContent={{ md: 'center', lg: 'space-around' }}
       alignItems="center"
-      w="50%"
-      spacing={4}
+      w={{ base: '100%', sm: '330px', md: '400px', lg: '600px' }}
+      spacing={{ base: 0, sm: 0, md: 5, lg: 10 }}
     >
       <Logo />
-      <FormikForm submitForm={submitForm} />
+      <FormikForm submitForm={submitForm} progress={progress} />
     </Stack>
   );
 };
@@ -55,7 +54,7 @@ const Logo = () => {
   );
 };
 
-const FormikForm = ({ submitForm }) => {
+const FormikForm = ({ submitForm, progress }) => {
   const options = ['mp3', 'mp4'];
 
   const { getRootProps, getRadioProps } = useRadioGroup({
@@ -72,7 +71,7 @@ const FormikForm = ({ submitForm }) => {
       validateOnBlur={false}
     >
       {(props) => (
-        <Stack as={Form} w={{ sm: '80%', md: '80%', lg: '40%' }}>
+        <Stack as={Form} w={{ sm: '80%', md: '80%', lg: '100%' }}>
           <Field name="url" validate={validateURL}>
             {({ field, form }) => (
               <>
@@ -120,15 +119,20 @@ const FormikForm = ({ submitForm }) => {
             )}
           </Field>
 
+          {progress === 'in-progress'}
           <Button
             type="submit"
             bg="whatsapp.500"
             w="100%"
             boxShadow="lg"
-            isLoading={props.isSubmitting}
+            isLoading={progress === 'in-progress'}
+            isDisabled={progress === 'in-progress'}
           >
-            <Icon as={DownloadIcon} />
-            <Text>Download</Text>
+            <Icon
+              as={progress === 'finished' ? CheckIcon : DownloadIcon}
+              mr={2}
+            />
+            <Text>{progress === 'finished' ? 'Done' : 'Download'}</Text>
           </Button>
         </Stack>
       )}

@@ -14,7 +14,9 @@ export const BasicLayout = ({ children }) => {
       bg={'teal.200'}
       spacing={4}
     >
-      {children}
+      <Stack justifyContent="center" alignItems="center" spacing={2}>
+        {children}
+      </Stack>
       <Footer />
     </Stack>
   );
