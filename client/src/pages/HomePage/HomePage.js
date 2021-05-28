@@ -25,7 +25,7 @@ const ProgressBar = ({ percentage }) => {
     <Stack
       justifyContent="center"
       alignItems="center"
-      w={{ base: '80%', lg: '100%' }}
+      w={{ base: '100%', lg: '100%' }}
     >
       <Progress
         position="relative"

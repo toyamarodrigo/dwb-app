@@ -32,7 +32,7 @@ export const DWB = ({ progress, setProgress, setPercentage }) => {
       direction={{ base: 'column', lg: 'row' }}
       justifyContent={{ md: 'center', lg: 'space-around' }}
       alignItems="center"
-      w={{ base: '100%', sm: '330px', md: '400px', lg: '600px' }}
+      w={{ base: '300px', sm: '330px', md: '400px', lg: '600px' }}
       spacing={{ base: 0, sm: 0, md: 5, lg: 10 }}
     >
       <Logo />
@@ -71,7 +71,7 @@ const FormikForm = ({ submitForm, progress }) => {
       validateOnBlur={false}
     >
       {(props) => (
-        <Stack as={Form} w={{ sm: '80%', md: '80%', lg: '100%' }}>
+        <Stack as={Form} w={{ base: '100%', sm: '80%', md: '80%', lg: '100%' }}>
           <Field name="url" validate={validateURL}>
             {({ field, form }) => (
               <>
