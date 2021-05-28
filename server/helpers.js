@@ -3,9 +3,14 @@ const ytdl = require('ytdl-core');
 const { exec } = require('child_process');
 
 exports.folderCreation = (dir, subDirectory) => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
-    fs.mkdirSync(subDirectory);
+  try {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+      fs.mkdirSync(subDirectory);
+    }
+  } catch (error) {
+    console.log(error, 'Creation folder Failed');
+    return null;
   }
 };
 
@@ -18,7 +23,7 @@ exports.getYoutubeTitle = async (youtubeID) => {
       .replace(/\W/g, '');
     return title;
   } catch (error) {
-    console.log(error);
+    console.log(error, 'Getting Youtube Title Failed');
     return null;
   }
 };
@@ -32,7 +37,7 @@ exports.createFile = (url, mp4File) => {
 
     bestAudio.pipe(mp4File);
   } catch (error) {
-    console.log(error);
+    console.log(error, 'Creation audio file Failed');
     return null;
   }
 };
@@ -61,6 +66,7 @@ exports.downloadAudioFile = (title, mp4File, subDirectory, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(400).send('Download File Failed');
     return null;
   }
 };
@@ -109,5 +115,9 @@ exports.downloadVideoFile = (
         }
       );
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    res.status(400).send('Download File Failed');
+    return null;
+  }
 };

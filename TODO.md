@@ -10,6 +10,8 @@
 
 * [ ] Disable Download Button when Downloading
 
+* [ ] createVideoFile helper?
+
 * [ ] After download - Show page thank you? or click to download file.
 
 * [ ] Make it https://dwbyoutube.com/
