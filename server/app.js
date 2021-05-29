@@ -5,6 +5,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'));
 app.use('/', router);
 
-app.listen(3001, () => console.log('Express running on port 3001'));
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Express running on port ${port}`));

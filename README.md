@@ -1,6 +1,6 @@
 # dwb - HQ Youtube Downloader
 
-![preview](https://i.imgur.com/2NUU3vd.png)
+![preview](https://i.imgur.com/FTR7VCS.png)
 
 ## Main objective
 
@@ -22,7 +22,7 @@ So I created this tiny webapp where you and I can download mp3's or mp4's at the
 
 4. If the selected output was `mp3`, `FFmpeg` will convert that `mp4` file into `mp3`. and then send it to the client.
 
-5. If the selected output was `mp4`, `FFmpeg` will download first their `highest quality audio ONLY possible` and then their `highest quality video ONLY`.
+5. If the selected output was `mp4`, `FFmpeg` will download first their `highest quality audio possible` and then their `highest quality video`. Why? because ytdl does not allow downloads highest audio and video at the same time.
 
 6. And finally FFmpeg will merge them into a single mp4 file and send it to the client.
 
@@ -42,9 +42,22 @@ It will run client and server concurrently
 
 ## Tech used
 
-* `HTML`, `CSS`, `Bootstrap`, `JS/JSX`, `ReactJS`, `Express`, `NodeJS`, `Socket.io`
+* `HTML`, `CSS`, `ChakraUI`, `JS`, `ReactJS`, `Express`, `NodeJS`
 
-* `node-ytdl-core`, `axios`, `validator`, `@ffmpeg-installer/ffmpeg`, `fluent-ffmpeg`, `concurrently`, `cors`, `nodemon`.
+## Dependencies
 
-Screenshot:
-![preview](https://i.imgur.com/k7pcLBR.png)
+client
+
+* `chakra-ui`, `fortawesome`, `axios`, `framer-motion`, `styled-components`, `ytdl-core`, `react-router`, `formik`, `framer-motion`
+
+server
+
+* `ytdl-core`, `@ffmpeg-installer/ffmpeg`, `fluent-ffmpeg`, `concurrently`, `cors`, `nodemon`.
+
+## Screenshot
+
+Desktop
+![preview](https://i.imgur.com/72uYoyk.png)
+
+Mobile
+![preview](https://i.imgur.com/UmyYOiO.png)
