@@ -1,5 +1,5 @@
 const express = require('express');
-const downloadController = require('./controllers/download-controller');
+const downloadController = require('./controllers/download');
 
 const router = express.Router();
 

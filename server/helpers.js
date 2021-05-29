@@ -2,7 +2,7 @@ const fs = require('fs');
 const ytdl = require('ytdl-core');
 const { exec } = require('child_process');
 
-exports.folderCreation = (dir, subDirectory) => {
+const folderCreation = (dir, subDirectory) => {
   try {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
@@ -14,7 +14,7 @@ exports.folderCreation = (dir, subDirectory) => {
   }
 };
 
-exports.getYoutubeTitle = async (youtubeID) => {
+const getYoutubeTitle = async (youtubeID) => {
   try {
     const youtubeMeta = await ytdl.getInfo(youtubeID);
     const title = youtubeMeta.videoDetails.title
@@ -28,7 +28,7 @@ exports.getYoutubeTitle = async (youtubeID) => {
   }
 };
 
-exports.createAudioFile = (url, mp4Audio) => {
+const createAudioFile = (url, mp4Audio) => {
   try {
     const bestAudio = ytdl(url, {
       filter: 'audioonly',
@@ -43,7 +43,7 @@ exports.createAudioFile = (url, mp4Audio) => {
   }
 };
 
-exports.createVideoFile = (url, mp4Video) => {
+const createVideoFile = (url, mp4Video) => {
   try {
     const bestVideo = ytdl(url, {
       filter: 'videoonly',
@@ -58,7 +58,7 @@ exports.createVideoFile = (url, mp4Video) => {
   }
 };
 
-exports.downloadAudioFile = (title, mp4Audio, subDirectory, res) => {
+const downloadAudioFile = (title, mp4Audio, subDirectory, res) => {
   try {
     mp4Audio.on('finish', () => {
       process.stdout.write('\n\n');
@@ -87,7 +87,7 @@ exports.downloadAudioFile = (title, mp4Audio, subDirectory, res) => {
   }
 };
 
-exports.downloadVideoFile = (title, mp4Audio, mp4Video, subDirectory, res) => {
+const downloadVideoFile = (title, mp4Audio, mp4Video, subDirectory, res) => {
   try {
     const output = title;
 
@@ -123,4 +123,13 @@ exports.downloadVideoFile = (title, mp4Audio, mp4Video, subDirectory, res) => {
     res.status(400).send('Download File Failed');
     return null;
   }
+};
+
+module.exports = {
+  folderCreation,
+  getYoutubeTitle,
+  createAudioFile,
+  createVideoFile,
+  downloadAudioFile,
+  downloadVideoFile,
 };
