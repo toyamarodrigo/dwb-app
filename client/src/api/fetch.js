@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { BASE_URL } from './constants';
 
-export async function getDownload(body, setProgress, setPercentage) {
+export async function startDownload(body, setProgress, setPercentage) {
   try {
-    const documentStyles = document.documentElement.style;
     let progress = 0;
     const bodyParsed = JSON.parse(body);
     const format = bodyParsed.format;
@@ -15,12 +14,10 @@ export async function getDownload(body, setProgress, setPercentage) {
       responseType: 'blob',
       url,
       onDownloadProgress(progressEvent) {
-        console.log('download progress: ', progressEvent);
         progress = Math.round(
           (progressEvent.loaded / progressEvent.total) * 100
         );
         setPercentage(progress);
-        documentStyles.setProperty('--progress', `${progress}%`);
       },
     };
 
@@ -34,10 +31,16 @@ export async function getDownload(body, setProgress, setPercentage) {
         link.href = urlWindow;
         link.setAttribute('download', `file.${format}`);
         document.body.appendChild(link);
-        // window.open(link);
         link.click();
         link.remove();
         window.URL.revokeObjectURL(url);
+        sessionStorage.setItem(
+          'file',
+          JSON.stringify({
+            url: urlWindow,
+            format: `file.${format}`,
+          })
+        );
         setProgress('finished');
       })
       .catch((err) => console.log(err));

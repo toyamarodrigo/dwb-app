@@ -4,13 +4,13 @@
 
 * [ ] Download from mobile devices possible?
 
-* [ ] Add Progress bar
+* [x] Add Progress bar
 
-* [ ] isLoading to Download Button
+* [x] isLoading to Download Button
 
-* [ ] Disable Download Button when Downloading
+* [x] Disable Download Button when Downloading
 
-* [ ] createVideoFile helper?
+* [x] createVideoFile helper?
 
 * [ ] After download - Show page thank you? or click to download file.
 

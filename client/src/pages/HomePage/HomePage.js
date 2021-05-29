@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Stack, Text, Progress } from '@chakra-ui/react';
+import { Stack, Text, Progress, Link, Button, Icon } from '@chakra-ui/react';
 import { DWB } from './DWB';
 import { BasicLayout } from '../../layout';
+import { DownloadIcon } from '@chakra-ui/icons';
 
 export const HomePage = () => {
   const [progress, setProgress] = useState(null);
@@ -15,6 +16,7 @@ export const HomePage = () => {
         percentage={percentage}
       />
       <Slogan />
+      {progress === 'finished' && <DownloadFile />}
       {progress && <ProgressBar percentage={percentage} />}
     </BasicLayout>
   );
@@ -48,6 +50,25 @@ const ProgressBar = ({ percentage }) => {
       <Text fontSize="x-small" color="blackAlpha.900">
         Large Videos may take a while
       </Text>
+    </Stack>
+  );
+};
+
+const DownloadFile = () => {
+  const link = JSON.parse(sessionStorage.getItem('file'));
+  return (
+    <Stack justifyContent="center" alignItems="center">
+      <Button
+        id="file-download-link"
+        bg="blue.400"
+        as={Link}
+        px={8}
+        href={link.url}
+        download={link.format}
+      >
+        <Icon as={DownloadIcon} mr={2} />
+        <Text id="file-download-text">{link.format}</Text>
+      </Button>
     </Stack>
   );
 };

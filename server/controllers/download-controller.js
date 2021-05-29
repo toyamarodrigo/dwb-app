@@ -11,14 +11,14 @@ exports.downloadAudio = async (req, res) => {
     const youtubeID = ytdl.getURLVideoID(req.query.url);
     const youtubeURL = req.query.url;
 
-    const mp4File = fs.createWriteStream(
+    const mp4Audio = fs.createWriteStream(
       `${subDirectory}/${Date.now()}Audio.mp4`
     );
 
     const title = await helpers.getYoutubeTitle(youtubeID);
 
-    await helpers.createFile(youtubeURL, mp4File);
-    await helpers.downloadAudioFile(title, mp4File, subDirectory, res);
+    await helpers.createAudioFile(youtubeURL, mp4Audio);
+    await helpers.downloadAudioFile(title, mp4Audio, subDirectory, res);
   } catch (error) {
     console.log(error);
     return res.status(400);
@@ -42,13 +42,13 @@ exports.downloadVideo = async (req, res) => {
 
     const title = await helpers.getYoutubeTitle(youtubeID);
 
-    await helpers.createFile(youtubeURL, mp4Audio);
+    await helpers.createAudioFile(youtubeURL, mp4Audio);
+    await helpers.createVideoFile(youtubeURL, mp4Video);
     await helpers.downloadVideoFile(
       title,
       mp4Audio,
       mp4Video,
       subDirectory,
-      youtubeURL,
       res
     );
   } catch (error) {

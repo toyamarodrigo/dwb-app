@@ -28,28 +28,44 @@ exports.getYoutubeTitle = async (youtubeID) => {
   }
 };
 
-exports.createFile = (url, mp4File) => {
+exports.createAudioFile = (url, mp4Audio) => {
   try {
     const bestAudio = ytdl(url, {
       filter: 'audioonly',
       quality: 'highestaudio',
     });
 
-    bestAudio.pipe(mp4File);
+    bestAudio.pipe(mp4Audio);
+    console.log('Creating audio file');
   } catch (error) {
     console.log(error, 'Creation audio file Failed');
     return null;
   }
 };
 
-exports.downloadAudioFile = (title, mp4File, subDirectory, res) => {
+exports.createVideoFile = (url, mp4Video) => {
   try {
-    mp4File.on('finish', () => {
+    const bestVideo = ytdl(url, {
+      filter: 'videoonly',
+      quality: 'highestvideo',
+    });
+
+    bestVideo.pipe(mp4Video);
+    console.log('Creating video file');
+  } catch (error) {
+    console.log(error, 'Creation video file Failed');
+    return null;
+  }
+};
+
+exports.downloadAudioFile = (title, mp4Audio, subDirectory, res) => {
+  try {
+    mp4Audio.on('finish', () => {
       process.stdout.write('\n\n');
       console.log(`${title} downloaded audio successfully`);
       let output = `${subDirectory}/${Date.now()}output.mp3`;
 
-      exec(`ffmpeg -i ${mp4File.path} ${output}`, (error) => {
+      exec(`ffmpeg -i ${mp4Audio.path} ${output}`, (error) => {
         if (error) return console.log('Error: ' + error.message);
 
         console.log('File has been created');
@@ -57,7 +73,7 @@ exports.downloadAudioFile = (title, mp4File, subDirectory, res) => {
         res.download(output, (err) => {
           if (err) throw err;
           console.log('Download started');
-          fs.unlinkSync(mp4File.path);
+          fs.unlinkSync(mp4Audio.path);
           fs.unlinkSync(output);
           console.log('Deleted files from server');
           res.end();
@@ -71,25 +87,12 @@ exports.downloadAudioFile = (title, mp4File, subDirectory, res) => {
   }
 };
 
-exports.downloadVideoFile = (
-  title,
-  mp4Audio,
-  mp4Video,
-  subDirectory,
-  youtubeURL,
-  res
-) => {
+exports.downloadVideoFile = (title, mp4Audio, mp4Video, subDirectory, res) => {
   try {
     const output = title;
 
     mp4Audio.on('finish', () => {
       console.log(`${title} downloaded audio successfully`);
-
-      const video = ytdl(youtubeURL, {
-        filter: 'videoonly',
-        quality: 'highestvideo',
-      });
-      video.pipe(mp4Video);
     });
 
     mp4Video.on('finish', () => {
