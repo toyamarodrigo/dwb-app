@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Stack, Text, Progress, Link, Button, Icon } from '@chakra-ui/react';
+import {
+  Stack,
+  Text,
+  Progress,
+  Link,
+  Button,
+  Icon,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { DWB } from './DWB';
 import { BasicLayout } from '../../layout';
 import { DownloadIcon } from '@chakra-ui/icons';
@@ -7,15 +15,18 @@ import { DownloadIcon } from '@chakra-ui/icons';
 export const HomePage = () => {
   const [progress, setProgress] = useState(null);
   const [percentage, setPercentage] = useState(0);
+  const colorLogo = useColorModeValue('#041c29', 'teal.50');
+  const colorSlogan = useColorModeValue('black', 'white');
   return (
     <BasicLayout>
       <DWB
+        color={colorLogo}
         progress={progress}
         setProgress={setProgress}
         setPercentage={setPercentage}
         percentage={percentage}
       />
-      <Slogan />
+      <Slogan color={colorSlogan} />
       {progress === 'finished' && <DownloadFile />}
       {progress && <ProgressBar percentage={percentage} />}
     </BasicLayout>
@@ -23,6 +34,7 @@ export const HomePage = () => {
 };
 
 const ProgressBar = ({ percentage }) => {
+  const bgBar = useColorModeValue('pink', 'purple');
   return (
     <Stack
       justifyContent="center"
@@ -36,7 +48,7 @@ const ProgressBar = ({ percentage }) => {
         isAnimated
         hasStripe
         value={percentage}
-        colorScheme="pink"
+        colorScheme={bgBar}
         mt={5}
         w="100%"
         h="1.3em"
@@ -73,13 +85,11 @@ const DownloadFile = () => {
   );
 };
 
-const Slogan = () => {
+const Slogan = ({ color }) => {
   return (
-    <Stack justifyContent="center" alignItems="center">
-      <Text color="black">Simple HQ Youtube Downloader</Text>
-      <Text color="black" as={'small'}>
-        up to 4k
-      </Text>
+    <Stack justifyContent="center" alignItems="center" color={color}>
+      <Text>Simple HQ Youtube Downloader</Text>
+      <Text as={'small'}>up to 4k</Text>
     </Stack>
   );
 };

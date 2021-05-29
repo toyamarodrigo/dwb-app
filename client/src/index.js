@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, ColorModeScript, theme } from '@chakra-ui/react';
 import { AnimateSharedLayout, AnimatePresence } from 'framer-motion';
 import App from './app/App';
 
@@ -9,6 +9,7 @@ ReactDOM.render(
     <AnimateSharedLayout>
       <AnimatePresence>
         <ChakraProvider>
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <App />
         </ChakraProvider>
       </AnimatePresence>

@@ -1,8 +1,10 @@
 import React from 'react';
-import { Stack } from '@chakra-ui/react';
-import { Footer } from '../../components';
+import { Stack, useColorModeValue } from '@chakra-ui/react';
+import { Footer, Navbar } from '../../components';
 
 export const BasicLayout = ({ children }) => {
+  const colorFooter = useColorModeValue('black', 'white');
+  const bgColor = useColorModeValue('twitter.200', 'messenger.900');
   return (
     <Stack
       position="relative"
@@ -11,13 +13,14 @@ export const BasicLayout = ({ children }) => {
       w="100vw"
       justifyContent="center"
       alignItems="center"
-      bg={'teal.200'}
       spacing={4}
+      bg={bgColor}
     >
+      <Navbar />
       <Stack justifyContent="center" alignItems="center" spacing={2}>
         {children}
       </Stack>
-      <Footer />
+      <Footer color={colorFooter} />
     </Stack>
   );
 };

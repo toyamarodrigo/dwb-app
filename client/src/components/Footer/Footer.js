@@ -10,7 +10,7 @@ import { motion } from 'framer-motion';
 
 const MotionLink = motion(Link);
 
-export const Footer = () => {
+export const Footer = ({ color }) => {
   const currentYear = new Date().getFullYear();
   return (
     <Stack
@@ -20,8 +20,9 @@ export const Footer = () => {
       bottom={0}
       paddingBottom={10}
       spacing={4}
+      color={color}
     >
-      <Stack direction="row" justifyContent="center" spacing={10} color="black">
+      <Stack direction="row" justifyContent="center" spacing={10}>
         {Socials.map((social, index) => (
           <MotionLink
             key={index}
@@ -49,9 +50,7 @@ export const Footer = () => {
         ))}
       </Stack>
       <Stack className="row justify-content-center align-items-center pt-3">
-        <Text as={'small'} color="black">
-          &copy; Copyright {currentYear}, Toyama Rodrigo
-        </Text>
+        <Text as={'small'}>&copy; Copyright {currentYear}, Toyama Rodrigo</Text>
       </Stack>
     </Stack>
   );
