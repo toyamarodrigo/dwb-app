@@ -14,7 +14,9 @@ So I created this tiny webapp where you and I can download mp3's or mp4's at the
 
 ## How does it work
 
-Since heroku has a timeout request at 30sec. If the download takes more than that it will break. It works for small video files (around 2/3min), depends on internet connection though. 😅
+### IMPORTANT
+
+`Since heroku has a timeout request at 30sec. If the download takes more than that it will break. It works for small video files (around 2/3min), depends on internet connection though. 😅`
 
 1. First copy and enter the URL of the desire Youtube video.
 
